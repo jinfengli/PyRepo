@@ -3,7 +3,23 @@
 from bs4 import BeautifulSoup
 import requests
 import xlsxwriter
+import logging
 from requests.exceptions import RequestException
+
+
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+ # LOG_FORMAT = "%(asctime)s - %(levelname)s - %(filename)s, line:%(lineno)d - %(message)s" 带有文件名、行号
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+
+# 输出到控制台
+stream_handler = logging.StreamHandler()
+formatter = logging.Formatter(fmt=LOG_FORMAT, datefmt=DATE_FORMAT)
+stream_handler.setFormatter(formatter)
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(stream_handler)
 
 
 # 具体房号的详细信息
@@ -15,6 +31,7 @@ def get_house_detail_page(houseId, index, worksheet):
     try:
         response = requests.get(url, headers=headers)
     except RequestException as e:
+        logger.error("error: " + response.status_code + "," + e)
         print("error: " + response.status_code)
 
     soup_detail = BeautifulSoup(response.text, 'html.parser')
@@ -26,15 +43,15 @@ def get_house_detail_page(houseId, index, worksheet):
     worksheet.write(index, 0, format_table_cell(tds[1].text))
     # 单元
     worksheet.write(index, 1, format_table_cell(tds[3].text))
-    #楼层
+    # 楼层
     worksheet.write(index, 2, format_table_cell(tds[9].text))
-    #房号
+    # 房号
     worksheet.write(index, 3, format_table_cell(tds[11].text))
-    #价格
+    # 价格
     worksheet.write(index, 4, format_table_cell(tds[7].text))
     # 类型
     worksheet.write(index, 5, format_table_cell(tds[13].text))
-    #总面积
+    # 总面积
     worksheet.write(index, 6, format_table_cell(tds[15].text))
     # 可用面积
     worksheet.write(index, 7, format_table_cell(tds[17].text))
@@ -43,6 +60,7 @@ def get_house_detail_page(houseId, index, worksheet):
     try:
         total_price = float(format_table_cell(tds[15].text)) * float(format_table_cell(tds[7].text)) / 10000
     except Exception as e:
+        logger.error(e)
         total_price = 0
 
     # totalPrice = 10000;
@@ -89,6 +107,7 @@ def get_one_building_info(id, presellid, type, workbook):
     try:
         response = requests.get(url, headers=headers)
     except RequestException as e:
+        logger.error(e)
         print("error: " + response.status_code)
 
     # soup = BeautifulSoup(open('a.html', 'rb'), 'html.parser')
@@ -221,7 +240,30 @@ def main():
     # get_all_house('39563', '53013', ['A'])
 
     # 星河荣御 三期
-    get_all_house('37903', '49133', ['C座C1', 'C座C2', 'B座B1', 'B座B2', 'D', 'A'])
+    # get_all_house('37903', '49133', ['C座C1', 'C座C2', 'B座B1', 'B座B2', 'D', 'A'])
+
+    # 新霖荟邑花园
+    # get_all_house('38883','53273', ['未命名'])
+    # get_all_house('38884','53273', ['未命名'])
+    # get_all_house('38885','53273', ['未命名'])
+    # get_all_house('38886','53273', ['未命名'])
+    # get_all_house('38887','53273', ['未命名'])
+    # get_all_house('38888','53273', ['未命名'])
+    # get_all_house('38889','53273', ['未命名'])
+
+    # 南园晗山悦海城
+    get_all_house('37963','49038', ['A', 'B'])
+
+    # 缙山府
+    # get_all_house('39623','53313', ['未命名'])
+    # get_all_house('39603','53313', ['未命名'])
+    # get_all_house('39604','53313', ['未命名'])
+    # get_all_house('39605','53313', ['未命名'])
+
+    # 华润置地笋岗中心
+    # get_all_house('39643', '53293', ['未命名'])
+    # get_all_house('39644', '53293', ['未命名'])
+    # get_all_house('39645', '53293', ['1'])
 
 
 if __name__ == '__main__':
