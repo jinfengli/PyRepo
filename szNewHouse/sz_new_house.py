@@ -135,7 +135,7 @@ def get_one_building_info(id, presellid, type, workbook):
 
 
 def get_all_house(id, presellid, list1):
-    workbook = xlsxwriter.Workbook('d:/' + set_excel_file_name(id, presellid) + '.xlsx')
+    workbook = xlsxwriter.Workbook('g:/personal/新房价格/' + set_excel_file_name(id, presellid) + '.xlsx')
     for index, list_ele in enumerate(list1):
         get_one_building_info(id, presellid, list1[index], workbook)
 
@@ -252,7 +252,28 @@ def main():
     # get_all_house('38889','53273', ['未命名'])
 
     # 南园晗山悦海城
-    get_all_house('37963','49038', ['A', 'B'])
+    # get_all_house('37963','49038', ['A', 'B'])
+
+    # 宏发万悦山
+    # get_all_house('39703', '53574', ['未命名'])
+    # get_all_house('39704', '53574', ['未命名'])
+    #
+    # get_all_house('39705', '53573', ['未命名'])
+    # get_all_house('39706', '53573', ['未命名'])
+
+    # 诺德阅山海
+    # get_all_house('39783', '53753', ['未命名'])
+    # get_all_house('39784', '53753', ['未命名'])
+    # get_all_house('39785', '53753', ['未命名'])
+    # get_all_house('39786', '53753', ['未命名'])
+    # get_all_house('39787', '53753', ['未命名'])
+
+    # 汇智时代广场 --宝安
+    # get_all_house('39763', '53673', ['未命名'])
+    # get_all_house('39764', '53673', ['未命名'])
+
+    # 上成大厦
+    # get_all_house('39723', '53733', ['未命名', 'B座'])
 
     # 缙山府
     # get_all_house('39623','53313', ['未命名'])
@@ -264,6 +285,13 @@ def main():
     # get_all_house('39643', '53293', ['未命名'])
     # get_all_house('39644', '53293', ['未命名'])
     # get_all_house('39645', '53293', ['1'])
+
+    # 坪山恒大城一期
+    # get_all_house('39803', '53773', ['A', 'B'])
+    # get_all_house('39804', '53773', ['未命名'])
+
+    # 壹城时代花园
+    get_all_house('39823', '53913', ['A座1单元', 'A座2单元', 'B座1单元', 'B座2单元', 'C座1单元', 'C座2单元'])
 
 
 if __name__ == '__main__':
